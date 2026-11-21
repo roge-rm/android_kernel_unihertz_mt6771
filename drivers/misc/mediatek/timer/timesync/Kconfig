@@ -1,0 +1,14 @@
+# Trimmed to the archcounter time sync camera_isp needs; stock's sys_timer sync
+# (MTK_TIMER_TIMESYNC, for SSPM and SCP) is left out.
+
+config MTK_ARCHCOUNTER_TIMESYNC
+	bool "Time synchronization between archcounter time and monotonic time"
+	help
+	  This selects the support for time synchronization between archcounter time
+	  and monotonic time.
+
+	  Time synchronization may be required in some sub-systems, for example,
+	  camera ...etc, to have ability to get the same monotonic time as kernel
+	  in AP.
+
+	  If unsure, say N.

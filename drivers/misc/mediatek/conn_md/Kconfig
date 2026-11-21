@@ -1,0 +1,7 @@
+config MTK_CONN_MD
+	bool "Support mtk connsys modem config"
+	help
+	  The conn_md bridge that passes LTE and Wi-Fi coexistence (IDC)
+	  messages between the connsys WMT driver and the modem. It exports
+	  mtk_conn_md_bridge_reg, _unreg and _send_msg, which the connectivity
+	  stubs give instead when this is off.

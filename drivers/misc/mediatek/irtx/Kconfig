@@ -1,0 +1,7 @@
+config MTK_IRTX_PWM_SUPPORT
+	bool "MediaTek consumer IR transmitter"
+	depends on MTK_PWM && REGULATOR && PINCTRL
+	help
+	  MediaTek IR transmitter driver on PWM memory mode, /dev/irtx,
+	  for the stock consumerir HAL. It powers the IR LED from the
+	  irtx-supply regulator while the device is open.

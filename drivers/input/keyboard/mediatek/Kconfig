@@ -1,0 +1,54 @@
+# SPDX-License-Identifier: GPL-2.0
+# MediaTek keypad (mtk-kpd), ported from the Titan Pocket 4.14 vendor kernel.
+
+config KEYBOARD_MTK
+	tristate "MediaTek Keypad Support"
+	depends on OF && ARCH_MEDIATEK
+	help
+	  The MediaTek keypad matrix at kp@10010000, as the input device
+	  mtk-kpd. With KPD_PWRKEY_USE_PMIC it also reports the MT6358
+	  power and home keys.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called mtk-kpd.
+
+if KEYBOARD_MTK
+
+config KPD_PWRKEY_USE_PMIC
+	bool "Power key from the MT6358 PMIC"
+	depends on MFD_MT6397
+	help
+	  Report the MT6358 PWRKEY and HOMEKEY interrupts on mtk-kpd, as
+	  mediatek,kpd-sw-pwrkey and mediatek,kpd-sw-rstkey.
+
+config ONEKEY_REBOOT_NORMAL_MODE
+	bool "Long press reboot by Powerkey only on normal mode"
+	depends on KPD_PWRKEY_USE_PMIC
+
+config TWOKEY_REBOOT_NORMAL_MODE
+	bool "Long press reboot by Powerkey + other key on normal mode"
+	depends on KPD_PWRKEY_USE_PMIC
+
+config ONEKEY_REBOOT_OTHER_MODE
+	bool "Long press reboot by Powerkey only on other mode"
+	depends on KPD_PWRKEY_USE_PMIC
+
+config TWOKEY_REBOOT_OTHER_MODE
+	bool "Long press reboot by Powerkey + other key on other mode"
+	depends on KPD_PWRKEY_USE_PMIC
+
+config KPD_PMIC_LPRST_TD
+	int "Long press reboot timeout period"
+	depends on ONEKEY_REBOOT_NORMAL_MODE || TWOKEY_REBOOT_NORMAL_MODE
+	range 0 3
+	default "0"
+	help
+	  MT6358 RG_PWRKEY_RST_TD: 0 is 8 s, 1 is 11 s, 2 is 14 s, 3 is 5 s.
+
+config MTK_MRDUMP_KEY
+	bool "MediaTek mrdump reset key support"
+	help
+	  Adds KEY_RESTART to mtk-kpd and listens on the
+	  "mediatek, mrdump_ext_rst-eint" node's IRQ when it has one.
+
+endif

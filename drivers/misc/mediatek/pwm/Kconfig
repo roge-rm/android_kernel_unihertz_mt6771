@@ -1,0 +1,8 @@
+config MTK_PWM
+	bool "MediaTek PWM memory mode"
+	depends on OF && COMMON_CLK
+	help
+	  MT6771 PWM block (mediatek,pwm) in memory mode: a channel sends a
+	  bitstream from a DMA buffer. Only the IR transmitter uses it.
+	  pwm_set_spec_config() and mt_pwm_disable() as in MediaTek's
+	  driver, other modes are refused.

@@ -1,0 +1,20 @@
+# SPDX-License-Identifier: GPL-2.0
+# ST21NFC from the 4.14 source. The st54spi eSE driver is left out: no st54spi
+# device is bound on stock and the stock DT has no st54 node.
+
+config NFC_CHIP_SUPPORT
+	tristate "NFC driver solution - NFC Controller Driver"
+	depends on I2C && MTK_NFC_CLKBUF_ENABLE
+	help
+	  STMicroelectronics ST21NFC Near Field Communication controller
+	  support. ST21NFC is standalone NFC and ST54 is combined with secure
+	  element. If configures to be y, means devices supports NFC
+	  functionality. If configures to be n, means devices doesn't support
+	  NFC functionality.
+
+config MTK_NFC_CLKBUF_ENABLE
+	bool "Enable clock buffer for NFC"
+	depends on MTK_COMBO
+	help
+	  Enable clock buffer from PMIC for NFC. clk_buf_ctrl() is the
+	  connectivity adapter's shim, so this needs MTK_COMBO.

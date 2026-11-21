@@ -1,0 +1,71 @@
+# Copyright (c) 2015-2018 TrustKernel Incorporated
+# All Rights Reserved.
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# version 2 as published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+
+config TRUSTKERNEL_TEE_SUPPORT
+	bool "TrustKernel Trusted Execution Environment Support"
+	depends on ARM64 && !TEE
+	select DMA_SHARED_BUFFER
+	default n
+	help
+	  Enable the support of TrustKernel TEE drivers.
+	  All Trustkernel related functions will depend on this option.
+	  Say Y if you would like yo enable this feature.
+	  If unsure, say N.
+
+config TRUSTKERNEL_TEE_FP_SUPPORT
+	bool "TrustKernel Trusted Execution Environment Finger Print Support"
+	depends on TRUSTKERNEL_TEE_SUPPORT
+	default n
+	help
+	  Enable TrustKernel TEE clock management mechanism.
+	  This feature allows TEE OS to manage clock already
+	  used by Linux.
+	  Say Y if you would like yo enable this feature.
+	  If unsure, say Y.
+
+config TRUSTKERNEL_TEE_RPMB_SUPPORT
+	bool "TrustKernel Trusted Execution Environment RPMB Support"
+	depends on TRUSTKERNEL_TEE_SUPPORT
+	default n
+	help
+	  Enable the access of Replay Protected Memory Block
+	  region for Trustkernel TEE.
+	  Say Y if you would like yo enable this feature.
+	  If unsure, say Y.
+
+config TRUSTKERNEL_TEE_RAM_DIAGNOSTIC
+	bool "Fail closed unless stock LK shared-memory ownership is preserved"
+	depends on TRUSTKERNEL_TEE_SUPPORT && OF_RESERVED_MEM && ARCH_KEEP_MEMBLOCK
+	default n
+	help
+	  RAM diagnostic only. After secure SHM negotiation, require the fresh
+	  LK tee-reserved no-map node, its early reserved-memory record and its
+	  absence from mapped and reserved memblock memory before mapping the
+	  exact stock relative SHM range inside it. A mismatch aborts
+	  driver startup; it never reserves guessed memory or changes the reply.
+	  The optional proc/debug logger is omitted to prevent its earlier log-SHM
+	  mapping and IRQ/thread startup. This does not suppress the SHM negotiation
+	  SMC or qualify secure internals.
+
+config TRUSTKERNEL_TEE_DIAGNOSTIC_LOGGER
+	bool "Keep /proc/tkcore and the TEE log reader under the SHM guard"
+	depends on TRUSTKERNEL_TEE_RAM_DIAGNOSTIC
+	default n
+	help
+	  With the RAM diagnostic guard on, still register /proc/tkcore and
+	  run the stock OS-revision and GET_LOGM_CONFIG SMCs, log IRQ and
+	  tee-log thread. The log SHM must lie inside the owned no-map TEE
+	  reservation and clear of the SHM pool before it is mapped. If that
+	  check or any logger step fails, only the logger is left off; the
+	  /proc/tkcore version entries and the driver carry on. This brings
+	  back the TEE OS log in dmesg and /proc/tkcore/tkcore_log, and the
+	  teed version entry.

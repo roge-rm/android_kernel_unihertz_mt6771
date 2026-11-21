@@ -1,0 +1,9 @@
+config MTK_CPUHP_POWER_DOWN
+	bool "MT6771 core and cluster power-down after CPU hotplug"
+	depends on ARM64 && HOTPLUG_CPU && HAVE_ARM_SMCCC
+	help
+	  After a CPU goes offline, ask ATF to power its core down
+	  (SIP 0xc2000212), and its cluster (SIP 0xc2000210) when it was the
+	  last CPU of a cluster, as stock's cpuhotplug driver on mt6771.
+	  ATF's PSCI CPU_OFF leaves the core powered, so without this an
+	  offline CPU can't come back online.

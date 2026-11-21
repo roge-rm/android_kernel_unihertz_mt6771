@@ -1,0 +1,19 @@
+# Modem thermal: the PA thermistor zone and the modem coolers stock binds
+# to it
+
+config MTK_THERMAL_BTSMDPA
+	bool "MediaTek modem PA thermistor"
+	depends on THERMAL_OF && IIO
+	help
+	  The mtktsbtsmdpa thermal sensor: the NTC on SoC AUXADC channel 1
+	  near the modem PA, read as stock's mtk_ts_btsmdpa does. The zone,
+	  its trips and cooling maps come from the board DT.
+
+config MTK_COOLER_MUTT
+	bool "MediaTek modem throughput coolers"
+	depends on THERMAL_OF
+	help
+	  The modem uplink throttling coolers mtk-cl-adp-mutt, mtk-cl-noIMS,
+	  mtk-cl-mdoff and mtk-cl-mutt00 to 03, with stock's
+	  /proc/driver/thermal/clmutt controls. They pass limits to the modem
+	  through eccci.

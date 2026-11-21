@@ -1,0 +1,63 @@
+#
+# Flashlight device configuration
+#
+
+config MTK_FLASHLIGHT
+	tristate "Mediatek flashlight driver"
+	help
+	  This is flashlight driver for camera.
+
+	  Say Y here if you want a flashlight core to handle flashlight devices.
+	  If you have any questions about this, say Y here, only say N
+	  if you know exactly what you are doing.
+
+config MTK_FLASHLIGHT_MT6370
+	tristate "Mediatek flashlight with driver IC (Mediatek MT6370)"
+	depends on MTK_FLASHLIGHT && RT_FLASHLIGHT
+	help
+	  This is for the flashlight driver IC (Mediatek MT6370).
+
+	  Say Y here if you want a flashlight driver IC MT6370.
+	  Select this only if your board has this IC.
+
+	  Say M here if you want to compile this driver as a module.
+
+config MTK_FLASHLIGHT_DEBUG
+	bool "Mediatek flashlight debugging messages"
+	depends on MTK_FLASHLIGHT
+	help
+	  Say Y here if you want the flashlight to produce a bunch of debug
+	  messages to the system log.
+
+	  Select this if you are having a problem with flashlight support
+	  and want to see more of what is going on.
+
+config MTK_FLASHLIGHT_PT
+	bool "Mediatek flashlight power throttling"
+	depends on MTK_FLASHLIGHT
+	help
+	  This is for flashlight power throttling.
+
+	  Power throttling will limit flashlight function,
+	  such as disable flashlight, decrease brightness level or
+	  change flash mode to torch mode.
+
+config MTK_FLASHLIGHT_PT_STRICT
+	bool "Mediatek flashlight power throttling (strict)"
+	depends on MTK_FLASHLIGHT_PT
+	help
+	  This is for flashlight strict power throttling.
+
+	  Strict power throttling will disable flashlight when
+	  over-current, low battary voltage and low battary percentage
+	  situations.
+
+config MTK_FLASHLIGHT_DLPT
+	bool "Mediatek flashlight dynamic low power throttling"
+	depends on MTK_FLASHLIGHT
+	help
+	  This is for flashlight dynamic low power throttling.
+
+	  Dynamic low power throttling is a mechanism to monitor
+	  the current of battary dynamicly. It will start by request
+	  and notice user by kernel notifier.

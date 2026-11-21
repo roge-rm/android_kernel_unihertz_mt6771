@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: GPL-2.0
+
+config SUNWAVE_FP
+	bool "Sunwave fingerprint sensor control"
+	depends on INPUT && OF && TRUSTKERNEL_TEE_FP_SUPPORT
+	help
+	  /dev/sunwave_fp and the fingerprint_key input device on the
+	  mediatek,fingerprint node, as the stock sunwave-fp driver, for
+	  the stock Sunwave fingerprint HAL. The TrustKernel TA reads the
+	  sensor over SPI0, so this only needs the TEE and the SPI0 clock.

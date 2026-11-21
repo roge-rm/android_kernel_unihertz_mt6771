@@ -1,0 +1,8 @@
+config MTK_SSPM_IPI
+	bool "MT6771 SSPM mailbox and IPI core"
+	depends on MACH_MT6771 && OF_RESERVED_MEM
+	help
+	  Talks to the SSPM power co-processor the preloader starts: maps
+	  its mailboxes, checks the pin layout, sends PLT_INIT with a log
+	  buffer in reserve-memory-sspm_share and exports
+	  sspm_ipi_send_sync(). Loads no firmware. Debugfs under sspm/.

@@ -1,0 +1,8 @@
+config MTK_MCDI_SSPM
+	bool "MT6771 MCDI core-off through SSPM"
+	depends on MTK_SSPM_IPI && ARM_PSCI_CPUIDLE && CPU_PM
+	help
+	  The AP side of MCDI core-off for cpuidle-psci's mcdi-cpu state:
+	  the available CPU mask and the isolation mask in SSPM mailbox 3,
+	  and a pause around CPU hotplug, as stock's mcdi_v1 on mt6771.
+	  Off until mtk_mcdi.enable=1. Debugfs under mtk_mcdi/.

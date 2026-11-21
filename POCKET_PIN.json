@@ -1,0 +1,12 @@
+{
+  "donor_repository": "https://github.com/evoxdl/android_kernel_motorola_sm6450",
+  "donor_revision": "9708121d5855e50a16df8787228d1edd6ed6f99c",
+  "patch_series": "patches/kernel-upgrade-5.10",
+  "built_boot_image": "p23",
+  "not_in_tree": "p23 also enables CONFIG_MTK_SPM_SUSPEND_HANG_TEST and CONFIG_COMMON_CLK_MT6771_FMETER_SCAN, two test-only options whose code is not in this tree",
+  "p23_image_gz_sha256": "eab50a6ff78e891bffee9b278b774d059f3f36bceba9fae4fadb06df32e7776d",
+  "tree_sha256": "1defb11d271a242ca54f72b4f81a4d9d2681093272d7383f6bb47beeb36e9801",
+  "files": 70064,
+  "source_tree": "tools/kernel-source/upgrade-5.10",
+  "note": "tree_sha256 hashes sorted path and file sha256 lines of the tree before README.md and this file were added"
+}

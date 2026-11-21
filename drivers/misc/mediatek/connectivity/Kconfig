@@ -1,0 +1,80 @@
+# Connectivity built-in adapter (connadp) and the stock connectivity
+# options from the 4.14 Kconfig, for the out-of-tree WMT, Wi-Fi, BT, GPS
+# and FM modules. Only MTK_COMBO builds code here; the rest are read by the
+# module Makefiles from this kernel's config, as stock.
+
+config MTK_COMBO
+	bool "MediaTek connectivity built-in adapter"
+	help
+	  Builds the exports the MediaTek connsys modules (wmt_drv,
+	  wmt_chrdev_wifi, wlan_drv_gen3, bt_drv, gps_drv, fmradio_drv)
+	  take from the kernel. Built in: the modules link against it and
+	  it hooks the consys reserved memory at boot.
+
+choice
+	prompt "Select Chip"
+	depends on MTK_COMBO
+
+config MTK_COMBO_CHIP_CONSYS_6771
+	bool "MTK MT6771 combo chip support"
+	help
+	  MT6771 connsys (BT, Wi-Fi, GPS and FM).
+
+endchoice
+
+config MTK_COMBO_CHIP
+	string
+	default "CONSYS_6771" if MTK_COMBO_CHIP_CONSYS_6771
+	help
+	  Combo chip or SoC connsys name the module Makefiles switch on.
+
+config MTK_COMBO_BT
+	tristate "MediaTek Combo Chip BT driver"
+	depends on MTK_COMBO
+	help
+	  MTK BT /dev/stpbt driver, built out of tree.
+
+config MTK_COMBO_GPS
+	tristate "MediaTek Combo Chip GPS driver"
+	depends on MTK_COMBO
+	help
+	  MTK GPS /dev/stpgps driver, built out of tree.
+
+config MTK_COMBO_WIFI
+	tristate "MediaTek combo chip Wi-Fi support"
+	depends on MTK_COMBO
+	select WIRELESS_EXT
+	select WEXT_PRIV
+	help
+	  MTK gen3 Wi-Fi, built out of tree. Selects the wireless
+	  extensions it uses, as stock.
+
+config MTK_WIFI_MCC_SUPPORT
+	bool "MTK_WIFI_MCC_SUPPORT"
+	depends on MTK_COMBO_WIFI
+	default y
+	help
+	  Multi-channel concurrency in the Wi-Fi driver.
+
+config MTK_GPS_SUPPORT
+	tristate "support MediaTek GPS driver"
+	help
+	  GPS feature switch the GPS module build reads.
+
+config MTK_GPS_EMI
+	tristate "MediaTek GPS EMI Driver"
+	depends on MTK_COMBO_GPS
+	help
+	  GPS EMI driver for MNL offload. Off on stock.
+
+config MTK_FMRADIO
+	tristate "MediaTek FMRadio driver"
+	depends on MTK_COMBO
+	help
+	  MTK FM radio, built out of tree.
+
+config MTK_FM_CHIP
+	string "MTK FM CHIP"
+	depends on MTK_FMRADIO
+	help
+	  FM chip the FM module build picks, MT6631_FM on stock.

@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: GPL-2.0
+config MTK_I2C_SHIM
+	bool "MTK I2C extension calls over i2c-mt65xx"
+	depends on I2C_MT65XX=y
+	help
+	  mtk_i2c_transfer, hw_trig_i2c_* and i2c_ccu_* from the 4.14 MTK
+	  I2C driver, for the 4.14 camera drivers. mtk_i2c_transfer is a
+	  plain i2c_transfer, hw_trig_i2c_* return -1 as stock does on a
+	  bus without buffer mode and i2c_ccu_* drive i2c-mt65xx's CCU
+	  channel.

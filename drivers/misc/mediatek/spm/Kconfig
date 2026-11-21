@@ -1,0 +1,36 @@
+config MTK_SPM_BASE
+	bool "MT6771 SPM base driver"
+	depends on ARM64 && HAVE_ARM_SMCCC && OF
+	help
+	  Maps the SPM (mediatek,sleep) and sleep_reg_md, takes SPM IRQ0,
+	  tells ATF the PCM firmware index and reads its firmware status, as
+	  stock's spm_module_init on mt6771. Shows them in debugfs spm/status.
+	  It starts no vcore DVFS and no suspend.
+
+config MTK_SPM_VCOREFS
+	bool "MT6771 vcorefs init and Vcore DVFS"
+	depends on MTK_SPM_BASE
+	help
+	  Runs stock's vcorefs init with Vcore DVS and DRAM DFS off: the
+	  SSPM QoS enable and OPP rows, the Vcore OPP table, the PCM
+	  firmware's PMIC wrap entries, PCM flag 0x418 and the DVFSRC set-up,
+	  then puts the pm_qos DRAM, Vcore and bandwidth requests and the
+	  screen state into the DVFSRC. Vcore and DRAM stay where they are.
+	  Runs unless spm_vcorefs.init=0. Debugfs spm/vcorefs and spm/qos.
+	  With spm_vcorefs.dvfs=1, the default, stock's DVS and DFS on branch
+	  (PCM flag 0x8400) and debugfs spm/force_opp; after a boot with
+	  dvfs=0, writing 1 to it turns that branch on then, with no way back.
+
+config MTK_SPM_SUSPEND
+	bool "MT6771 SPM deep suspend"
+	depends on MTK_SPM_VCOREFS && SUSPEND && ARM_PSCI_FW
+	help
+	  Stock's suspend for mem through the SPM: the PCM watchdog, the SSPM
+	  suspend commands, the MCDI pause and the TOPRGU handover, the GIC
+	  masked but for SPM IRQ0 and stock's edge IRQs, which SYS_CIRQ
+	  latches while the GIC is off, the 8250_mtk sleep handshake, the SIP
+	  suspend flags and PSCI CPU_SUSPEND 0x1010005 on CPU0. Then the wake
+	  reason in dmesg, pm_wakeup_irq and debugfs spm/suspend. Offered as
+	  mem_sleep "deep", and the default, with spm_suspend.deep=1 and
+	  spm_vcorefs.init=1 (both default); mem_sleep_default=s2idle or
+	  spm_suspend.deep=0 keeps s2idle.

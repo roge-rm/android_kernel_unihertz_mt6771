@@ -1,0 +1,27 @@
+# Camera ISP engines. Trimmed to what this port builds: the P1 ISP and DIP
+# (MTK_CAMERA_ISP) and WPE. RSC and FDVT are milestone C4; OWE, MFB, DPE, TSF, GEPF and EAF stay out.
+
+config MTK_CAMERA_ISP
+	bool "Camera ISP Driver Support"
+	help
+	  Enable to build the isp_50 camera ISP (/dev/camera-isp) and
+	  DIP (/dev/camera-dip) drivers for MT6771.
+
+config MTK_CAMERA_ISP_WPE_SUPPORT
+	bool "[WPE] Warping Engine"
+	depends on MTK_CAMERA_ISP
+	help
+	  Warping Engine (WPE) off-loads image warping for features like
+	  EIS, /dev/camera-wpe.
+
+config MTK_CAMERA_ISP_RSC_SUPPORT
+	bool "[RSC] Rolling Shutter Cancellation"
+	depends on MTK_CAMERA_ISP
+	help
+	  Motion vectors for EIS and noise reduction, /dev/camera-rsc.
+
+config MTK_CAMERA_ISP_FD_SUPPORT
+	bool "[FD] Face Detection"
+	depends on MTK_CAMERA_ISP
+	help
+	  Face detection, /dev/camera-fdvt.

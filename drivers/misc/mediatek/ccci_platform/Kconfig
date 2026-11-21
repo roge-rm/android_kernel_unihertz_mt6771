@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: GPL-2.0
+
+config MTK_CCCI_PLATFORM_DEPS
+	bool "MT6771 platform calls for the eccci modem driver"
+	depends on MACH_MT6771 && MTK_PMIC_CHIP_MT6358 && MFD_MT6397 && MEDIATEK_SOLUTION
+	help
+	  The calls the 4.14 eccci driver makes outside itself: VMODEM
+	  through the MT6358, the clock buffer flight mode bit, the SPM
+	  AP-to-MD clock source request, and logging stubs for PBM,
+	  vcorefs and AEE. Same names and prototypes as 4.14.

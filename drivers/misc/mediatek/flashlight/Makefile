@@ -1,0 +1,25 @@
+#
+# Makefile for the kernel flashlight device drivers.
+#
+
+flashlight-y := flashlight-core.o
+flashlight-y += flashlight-device.o
+
+obj-$(CONFIG_MTK_FLASHLIGHT)             += flashlight.o
+obj-$(CONFIG_MTK_FLASHLIGHT_MT6370)      += flashlights-mt6370.o
+
+ccflags-$(CONFIG_MTK_FLASHLIGHT_DEBUG)     := -DDEBUG
+ccflags-$(CONFIG_MTK_FLASHLIGHT_PT)        += -DCONFIG_MTK_FLASHLIGHT_PT
+ccflags-$(CONFIG_MTK_FLASHLIGHT_PT_STRICT) += -DCONFIG_MTK_FLASHLIGHT_PT_STRICT
+ccflags-$(CONFIG_MTK_FLASHLIGHT_DLPT)      += -DCONFIG_MTK_FLASHLIGHT_DLPT
+
+MTK_PLATFORM := $(subst ",,$(CONFIG_MTK_PLATFORM))
+MTK_CUSTOM_PATH := $(srctree)/drivers/misc/mediatek
+
+ccflags-y += -D$(MTK_PLATFORM)
+
+subdir-ccflags-y += \
+	-I$(MTK_CUSTOM_PATH)/include/mt-plat \
+	-I$(MTK_CUSTOM_PATH)/include/mt-plat/$(MTK_PLATFORM)/include/mach \
+	-I$(MTK_CUSTOM_PATH)/pmic/include \
+	-I$(MTK_CUSTOM_PATH)/pmic

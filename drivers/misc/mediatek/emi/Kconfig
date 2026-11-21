@@ -1,0 +1,9 @@
+config MTK_EMI
+	bool "MT6771 EMI MPU regions"
+	depends on MACH_MT6771 && MEDIATEK_SOLUTION
+	help
+	  Sets EMI MPU regions through ATF (SMC EMIMPU_SET), as stock's
+	  emi_mpu_set_protection(): the locked AP region 31 over all of
+	  DRAM at boot, and the regions SCP and the connsys modules ask
+	  for. Debugfs under emi_mpu/ shows the violation status and
+	  every region.

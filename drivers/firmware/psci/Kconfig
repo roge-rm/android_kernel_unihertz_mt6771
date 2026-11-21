@@ -1,0 +1,23 @@
+# SPDX-License-Identifier: GPL-2.0-only
+config ARM_PSCI_FW
+	bool
+
+config ARM_PSCI_NO_SYSTEM_SUSPEND
+	bool "Don't use PSCI SYSTEM_SUSPEND for suspend to RAM"
+	depends on ARM_PSCI_FW && SUSPEND
+	help
+	  Leave PSCI SYSTEM_SUSPEND unused even when the firmware lists it,
+	  so "mem" in /sys/power/state means suspend-to-idle (s2idle) only.
+	  For firmware whose system suspend needs a vendor kernel driver to
+	  set it up first, such as MediaTek SPM on MT6771.
+
+config ARM_PSCI_CHECKER
+	bool "ARM PSCI checker"
+	depends on ARM_PSCI_FW && HOTPLUG_CPU && CPU_IDLE && !TORTURE_TEST
+	help
+	  Run the PSCI checker during startup. This checks that hotplug and
+	  suspend operations work correctly when using PSCI.
+
+	  The torture tests may interfere with the PSCI checker by turning CPUs
+	  on and off through hotplug, so for now torture tests and PSCI checker
+	  are mutually exclusive.

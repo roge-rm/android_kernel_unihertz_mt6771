@@ -1,0 +1,16 @@
+# The MT6370 part of T's pmic/Kconfig. The MediaTek PMIC drivers it also
+# lists aren't ported; the MT6358 comes from 5.10's mt6397 MFD.
+# T has this depend on MTK_PMIC_NEW_ARCH, the PMIC framework, which isn't
+# ported; with the MT6370 detecting the type it isn't needed.
+config MTK_EXTERNAL_CHARGER_TYPE_DETECT
+	bool "MediaTek external charger type detection"
+	default n
+	help
+	  MediaTek external charger type detection flow
+	  only for MTK_PMIC_NEW_ARCH
+	  It used to support external charger type detection.
+	  Default is MTK PMIC path. Select Y to disable MTK charger type detect.
+	  Set y to enable it.
+	  Set n to disable it.
+
+source "drivers/misc/mediatek/pmic/mt6370/Kconfig"

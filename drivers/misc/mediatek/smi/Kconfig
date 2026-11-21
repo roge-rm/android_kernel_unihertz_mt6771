@@ -1,0 +1,11 @@
+config MTK_SMI_EXT
+	bool "MediaTek SMI Support"
+	select MEMORY
+	select MTK_SMI
+	# The mainline mtk_smi_larb_get API is not built with SMI EXT.
+	depends on !MTK_IOMMU && !MTK_IOMMU_V1 && !DRM_MEDIATEK
+	help
+	  This driver is for the memory controller module in MediaTek SoCs,
+	  mainly help arbitrate memory bandwidth of multimedia,
+	  and optimize multimedia memory usage in different scenarios.
+	  If you are not sure about this, set y.

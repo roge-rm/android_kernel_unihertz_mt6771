@@ -1,0 +1,7 @@
+config MTK_TINYSYS_SCP_SUPPORT
+	bool "MediaTek MT6771 SCP core"
+	depends on MACH_MT6771 && OF_RESERVED_MEM && COMMON_CLK
+	help
+	  The SCP (the Cortex-M4 that runs the sensor hub) as stock: the
+	  mailbox IPI, the ready notify, the awake lock, the scp_share
+	  reserved memory and the SCP clock mux. LK loads the firmware.

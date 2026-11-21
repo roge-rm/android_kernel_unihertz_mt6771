@@ -1,0 +1,195 @@
+source "drivers/misc/mediatek/tkcore/Kconfig"
+
+menuconfig MEDIATEK_SOLUTION
+	bool "MediaTek 4.14 driver glue for the display and GPU port"
+	default n
+	help
+	  Turns on the MediaTek display and GPU drivers and shows
+	  MTK_PLATFORM. Each driver directory has its own symbol.
+
+if MEDIATEK_SOLUTION
+
+config MTK_PLATFORM
+	string "MTK platform name"
+	default "mt6771"
+
+# T declares this in arch/arm64/Kconfig.platforms with SoC selects. Here it
+# only gates the MT6771 branches of the 4.14 Makefiles and sources.
+config MACH_MT6771
+	bool "MediaTek MT6771"
+	help
+	  Selects the MT6771 code in the 4.14 MediaTek drivers.
+
+# The PMIC stock pairs with the MT6771. Like MACH_MT6771 it only picks the
+# MT6358 branches of the 4.14 sources.
+config MTK_PMIC_CHIP_MT6358
+	bool "MediaTek MT6358 PMIC"
+	help
+	  Selects the MT6358 code in the 4.14 MediaTek drivers.
+
+# The DRAMC driver isn't ported. This only lets the 4.14 callers use the
+# dramc/mt6771/mtk_dramc.h answers (LPDDR4X, 2 channels, 3600) as stock does.
+config MTK_DRAMC
+	bool "MediaTek DRAM controller queries"
+	help
+	  Picks the DRAM-type branches in the 4.14 DISP layering rule.
+
+# Turns on the 4.14 PM QoS requests in DISP and SMI mmdvfs. They go to the
+# no-op pm_qos calls in include/linux/pm_qos.h and the mmdvfs_pmqos.h stubs.
+config MTK_QOS_SUPPORT
+	bool "MediaTek MM PM QoS requests"
+	help
+	  Builds the 4.14 PM QoS request paths; nothing listens to them.
+
+config MTK_BASE_POWER
+	bool "MediaTek power management"
+	help
+	  For MediaTek power management features, such as CPU idle,
+	  CPU suspend, CPU DVFS, GPU DVFS,
+	  Select if you want to enable MediaTek power
+	  management feature.
+
+source "drivers/misc/mediatek/smi/Kconfig"
+source "drivers/misc/mediatek/m4u/Kconfig"
+source "drivers/misc/mediatek/cmo/Kconfig"
+source "drivers/misc/mediatek/cmdq/Kconfig"
+source "drivers/misc/mediatek/sync/Kconfig"
+source "drivers/misc/mediatek/lcm/Kconfig"
+source "drivers/misc/mediatek/video/Kconfig"
+source "drivers/misc/mediatek/ext_disp/Kconfig"
+source "drivers/misc/mediatek/leds/Kconfig"
+source "drivers/misc/mediatek/boot/Kconfig"
+source "drivers/misc/mediatek/gpu/Kconfig"
+source "drivers/misc/mediatek/freqhopping/Kconfig"
+
+# Charger milestone 2: the MT6370 MFD and the Richtek parts it needs
+source "drivers/misc/mediatek/rt-regmap/Kconfig"
+source "drivers/misc/mediatek/flashlight/richtek/Kconfig"
+source "drivers/misc/mediatek/pmic/Kconfig"
+
+# Vibrator
+source "drivers/misc/mediatek/vibrator/Kconfig"
+
+# SCP core for the sensor hub
+source "drivers/misc/mediatek/scp/Kconfig"
+
+# Connectivity built-in adapter and the stock connsys options
+source "drivers/misc/mediatek/connectivity/Kconfig"
+
+# BTIF for the connsys STP link
+source "drivers/misc/mediatek/btif/Kconfig"
+
+# ST21NFC
+source "drivers/misc/mediatek/nfc/Kconfig"
+
+# FS16xx smart amp raw I2C node
+source "drivers/misc/mediatek/smartpa/Kconfig"
+
+# ACCDET headset jack detect on the MT6358
+source "drivers/misc/mediatek/accdet/Kconfig"
+
+# PMIC, clock buffer, SPM and stub calls for the eccci modem driver
+source "drivers/misc/mediatek/ccci_platform/Kconfig"
+
+# eccci core, fsm, CLDMA and CCIF hif and the MT6771 platform code
+source "drivers/misc/mediatek/eccci/Kconfig"
+
+# ccci_util modem capability options
+source "drivers/misc/mediatek/ccci_util/Kconfig"
+
+# ccmni network interfaces for eccci
+source "drivers/misc/mediatek/ccmni/Kconfig"
+
+# conn_md LTE coex bridge, the modem PA thermistor and the modem coolers
+source "drivers/misc/mediatek/conn_md/Kconfig"
+source "drivers/misc/mediatek/thermal/Kconfig"
+
+# Sensor hub stack, stock's Sensors menu
+menu "Sensors"
+
+config MTK_SENSOR_SUPPORT
+	bool "MTK SENSOR SUPPORT"
+	help
+	  Sensor config for sensor feature in project.
+	  Please say Y here if you want to support and sensors
+	  with mediatek sensor architecture.
+	  If unsure, say N.
+
+config MTK_SENSOR_ARCHITECTURE
+	string "MTK SENSOR ARCHITECTURE"
+	default "dummy"
+	help
+	  Sensor config for sensor architecture in project.
+	  Please set 1.0/2.0/3.0 etc if you want to support sensor
+	  with mediatek sensor architecture.
+	  If unsure, set dummy.
+
+source "drivers/misc/mediatek/sensors-1.0/Kconfig"
+endmenu  # Sensors
+
+# Sunwave fingerprint sensor and the front strip keys
+source "drivers/misc/mediatek/sunwave/Kconfig"
+
+# Systracker, the infra bus timeout monitor
+source "drivers/misc/mediatek/systracker/Kconfig"
+
+# Video codec, /dev/Vcodec
+source "drivers/misc/mediatek/videocodec/Kconfig"
+
+# Camera: the MTK I2C calls over i2c-mt65xx
+source "drivers/misc/mediatek/i2c_shim/Kconfig"
+
+# Camera sensor path: imgsensor with seninf, the sensor list
+config CUSTOM_KERNEL_IMGSENSOR
+	string "Custom image sensor driver"
+	help
+	  Kernel space image sensor driver. Define  project used all image
+	  sensors .The value is combination of CUSTOM_KERNEL_MAIN_IMGSENSOR,
+	  CUSTOM_KERNEL_MAIN_BACKUP_IMGSENSOR, CUSTOM_KERNEL_SUB_IMGSENSOR,
+	  and CUSTOM_KERNEL_SUB_BACKUP_IMGSENSOR
+
+source "drivers/misc/mediatek/imgsensor/Kconfig"
+
+# Camera calibration EEPROM, /dev/CAM_CAL_DRV
+source "drivers/misc/mediatek/cam_cal/Kconfig"
+
+# Lens actuators, /dev/MAINAF and /dev/SUBAF
+source "drivers/misc/mediatek/lens/Kconfig"
+
+# Camera flashlight: /dev/flashlight and the MT6370 channels
+source "drivers/misc/mediatek/flashlight/Kconfig"
+
+# Archcounter to monotonic time sync for the camera ISP
+source "drivers/misc/mediatek/timer/timesync/Kconfig"
+
+# Camera ISP, DIP and WPE: /dev/camera-isp, /dev/camera-dip, /dev/camera-wpe
+source "drivers/misc/mediatek/cameraisp/Kconfig"
+
+# Camera CCU, /dev/ccu
+source "drivers/misc/mediatek/ccu/src/Kconfig"
+
+# Camera JPEG encoder, /proc/mtk_jpeg
+source "drivers/misc/mediatek/jpeg/Kconfig"
+
+# SSPM mailbox and IPI core
+source "drivers/misc/mediatek/sspm_ipi/Kconfig"
+
+# EMI MPU regions over ATF
+source "drivers/misc/mediatek/emi/Kconfig"
+
+# MCDI core-off through SSPM mailbox 3
+source "drivers/misc/mediatek/mcdi_sspm/Kconfig"
+
+# Core power-down after CPU hotplug
+source "drivers/misc/mediatek/cpuhp/Kconfig"
+
+# SPM base driver
+source "drivers/misc/mediatek/spm/Kconfig"
+
+# PWM memory mode for the IR transmitter
+source "drivers/misc/mediatek/pwm/Kconfig"
+
+# IR transmitter, /dev/irtx
+source "drivers/misc/mediatek/irtx/Kconfig"
+
+endif

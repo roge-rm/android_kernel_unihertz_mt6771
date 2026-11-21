@@ -1,0 +1,8 @@
+config MTK_M4U
+	tristate "MediaTek M4U driver"
+	default y
+	# M4U calls smp_inner_dcache_flush_all(), built only with the SF flush.
+	select MTK_CACHE_FLUSH_BY_SF
+	help
+	  M4U driver support for multimedia hardware use non-physical continuous memory.
+
