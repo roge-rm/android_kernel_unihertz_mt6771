@@ -2,9 +2,9 @@
   "donor_repository": "https://github.com/evoxdl/android_kernel_motorola_sm6450",
   "donor_revision": "9708121d5855e50a16df8787228d1edd6ed6f99c",
   "patch_series": "patches/kernel-upgrade-5.10",
-  "built_boot_image": "release 23.2-20261123 boot.img (sha256 5f62b2398054a71b060c3d38dca0c816ba87af7f8bed750090604d438198faa9), enforcing variant",
-  "image_gz_sha256": "23925f6a1131182c7e4dd7355a0dd1408046e8b7fdbf665a24e57b31c00152ac",
-  "tree_sha256": "1defb11d271a242ca54f72b4f81a4d9d2681093272d7383f6bb47beeb36e9801",
+  "built_boot_image": "release 23.2-20261126 boot.img (sha256 5a3e7f3ce97b5483a144d409a6c01f0c6a8623ae63c508d3ea4b81f206572c93), enforcing variant",
+  "image_gz_sha256": "d9fc66c37b4495e6bc8c248b9c2dca00466154544d9ced61dc850b55a8b39aa0",
+  "tree_sha256": "9d3e6535f29560373d772aa016e48b7f33826265c9cd09791e7adf59cce53d74",
   "files": 70064,
   "source_tree": "tools/kernel-source/upgrade-5.10",
   "note": "tree_sha256 hashes sorted path and file sha256 lines of the tree before README.md and this file were added"

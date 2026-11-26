@@ -364,8 +364,8 @@ struct mtk_cci {
 	unsigned long rate;	/* Hz, last rate we set or read at probe */
 };
 
-/* On by default */
-static bool cci_param = true;
+/* Off by default: the CCI stays at 598 MHz */
+static bool cci_param;
 module_param_named(cci, cci_param, bool, 0444);
 MODULE_PARM_DESC(cci, "MT6771: scale the CCI with the clusters at boot (0 = fixed 598 MHz)");
 

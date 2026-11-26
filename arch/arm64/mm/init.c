@@ -552,6 +552,12 @@ static void __init free_unused_memmap(void)
 		start = min(start, ALIGN(prev_end, PAGES_PER_SECTION));
 #endif
 		/*
+		 * Keep the memmap of a pageblock a bank starts in: the page
+		 * allocator walks whole pageblocks (move_freepages_block) and
+		 * reads every struct page in them.
+		 */
+		start = round_down(start, pageblock_nr_pages);
+		/*
 		 * If we had a previous bank, and there is a space between the
 		 * current bank and the previous, free it.
 		 */
